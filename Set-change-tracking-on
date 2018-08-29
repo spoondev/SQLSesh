@@ -1,0 +1,15 @@
+USE [dbname]
+
+ALTER DATABASE <dbname>
+SET CHANGE_TRACKING = ON
+(CHANGE_RETENTION = 2 DAYS, AUTO_CLEANUP = ON);
+
+/*We have told the database to only store 2 days of historical data and the
+autocleanup means that any data older than that will be destroyed. This is
+an agressive tactic, make sure you are ETLing your stuff in a day otherwise 
+you may lose data*/
+
+ALTER TABLE [dbname].[tablename]
+ENABLE CHANGE_TRACKING
+WITH (TRACK_COLUMNS_UPDATED = ON);
+GO
